@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<configuration>
+  <appender name="FILE" class="ch.qos.logback.core.FileAppender">
+    <file>RedisApp.log</file>
+    <!-- encoder changed -->
+  <!--  <encoder class="com.newrelic.logging.logback.NewRelicEncoder"/> -->
+  <layout class="ch.qos.logback.classic.PatternLayout">
+            <Pattern>
+                %d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n
+            </Pattern>
+        </layout>
+        
+
+            <!-- <fieldNames>
+                <timestamp>[ignore]</timestamp>
+                <version>[ignore]</version>
+                <thread>[ignore]</thread>
+                <logger>[ignore]</logger>
+                <levelValue>[ignore]</levelValue>
+            </fieldNames>
+ -->
+  </appender>
+
+  <!-- this appender does normal console logging -->
+  <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder>
+      <pattern>%msg%n</pattern>
+    </encoder>
+  </appender>
+
+  <!-- The required New Relic ASYNC appender wraps the FILE appender -->
+
+	<logger name="com.gj" level="debug"
+		additivity="false">
+		<!-- <appender-ref ref="FILE-AUDIT" />
+		 <appender-ref ref="STDOUT" />
+ -->
+
+    <appender-ref ref="STDOUT" />
+ 	</logger>
+
+    <logger name="org.springframework.cache" level="trace"
+            additivity="false">
+        <!-- <appender-ref ref="FILE-AUDIT" />
+         <appender-ref ref="STDOUT" />
+ -->
+
+        <appender-ref ref="STDOUT" />
+    </logger>
+
+    <logger name="org.springframework.data.redis" level="trace"
+            additivity="false">
+        <!-- <appender-ref ref="FILE-AUDIT" />
+         <appender-ref ref="STDOUT" />
+ -->
+
+        <appender-ref ref="STDOUT" />
+    </logger>
+  <root level="warn">
+    <!-- ASYNC is one of the main appenders -->
+
+
+    <!-- Send every message to normal console logging, as well. -->
+    <appender-ref ref="STDOUT" />
+  </root>
+</configuration>
